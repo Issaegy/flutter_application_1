@@ -1,4 +1,5 @@
 create portflio_5497122
+email: issa.samir.ibrahim@mnd.thm.de
 4. Installation der Entwicklungsumgebung
    Installiere Flutter auf Deinem Computer. Folge der offiziellen Installationsanleitung auf der Flutter Webseite. Stelle sicher, dass die Flutter-Umgebung richtig konfiguriert ist, indem Du den Befehl flutter doctor im Terminal ausführst. Korrigiere eventuelle Fehler oder fehlende Komponenten, bis der Befehl keine relevanten Fehler mehr anzeigt.
 2. Einrichtung des Git-Repositories
