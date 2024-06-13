@@ -1,0 +1,48 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/constants/colors.dart';
+import 'package:flutter_application_1/constants/nav_items.dart';
+
+class DrawerMobile extends StatelessWidget {
+  const DrawerMobile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer (
+        backgroundColor: CustomColor.black,
+        child: ListView(
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: 20,
+                  top: 20,
+                  bottom: 20,
+                  ),
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  }, 
+                  icon: const Icon(Icons.close),
+                ),
+              ),
+            ),
+           for(int i = 0; i < navIcons.length;i++)
+           ListTile(
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 50,
+            ),
+            titleTextStyle: const TextStyle(
+              color: CustomColor.whitePrimary,
+              fontSize: 15,
+              fontWeight: FontWeight.w100,
+            ),
+            onTap: () {},
+            leading: Icon(navIcons[i]),
+            title: Text(navTitles[i]),
+           ),
+          ],
+        ),
+      );
+  }
+}
