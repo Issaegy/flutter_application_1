@@ -112,16 +112,18 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void scrollToSection(int navIndex) {
-    if(navIndex == 4){
-
-      return;
-    }
-    final key = navbarKeys [navIndex];
-    Scrollable.ensureVisible(
-      key.currentContext!,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
-    );
+void scrollToSection(int navIndex) {
+  if (navIndex < 0 || navIndex >= navbarKeys.length) {
+    print('Invalid navIndex: $navIndex');
+    return;
   }
+  
+  final key = navbarKeys[navIndex];
+  Scrollable.ensureVisible(
+    key.currentContext!,
+    duration: const Duration(milliseconds: 500),
+    curve: Curves.easeInOut,
+  );
+}
+
 }
