@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 import 'package:flutter_application_1/constants/hello.dart';
-import 'package:flutter_application_1/utils/project_utils.dart';
 import 'package:flutter_application_1/widgets/contact_section.dart';
 import 'package:flutter_application_1/widgets/drawer_mobile.dart';
 import 'package:flutter_application_1/widgets/header_desktop.dart';
 import 'package:flutter_application_1/widgets/header_mobile.dart';
-import 'package:flutter_application_1/widgets/main_Mobile.dart';
+import 'package:flutter_application_1/widgets/main_mobile.dart';
 import 'package:flutter_application_1/widgets/main_desktop.dart';
 import 'package:flutter_application_1/widgets/projects_sections.dart';
 import 'package:flutter_application_1/widgets/skills_desktop.dart';
@@ -21,6 +20,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final scrollController = ScrollController();
+  final List<GlobalKey> navbarKeys = List.generate(4, (index) => GlobalKey());
 
   @override
   Widget build(BuildContext context) {
@@ -33,70 +34,94 @@ class _HomePageState extends State<HomePage> {
         return Scaffold(
           key: scaffoldKey,
           backgroundColor: Colors.grey[700],
-          endDrawer: constraints.maxWidth >= DesktopWidth ? null : const DrawerMobile(),
-          body: ListView(
+          endDrawer: constraints.maxWidth >= DesktopWidth
+              ? null
+              : DrawerMobile(onNavItemTap: (int navIndex){
+                scaffoldKey.currentState?.closeDrawer();
+                scrollToSection(navIndex);
+                }
+                ),
+          body: SingleChildScrollView(
+            controller: scrollController,
             scrollDirection: Axis.vertical,
-            children: <Widget>[
-              //Main
-              if (constraints.maxWidth >= DesktopWidth)
-                const HeaderDesktop()
-              else
-                HeaderMobile(
-                  onLogoTap: () {},
-                  onMenuTap: () {
-                    scaffoldKey.currentState?.openEndDrawer();
-                  },
-                ),
+            child: Column(
+              children: [
+                SizedBox(key: navbarKeys.first),
+                // Header je nach Bildschirmgröße anzeigen
+                if (constraints.maxWidth >= DesktopWidth)
+                  HeaderDesktop(
+                    onNavMenuTap: (int navIndex) {scrollToSection(navIndex);
+                    })
+                else
+                  HeaderMobile(
+                    onLogoTap: () {},
+                    onMenuTap: () {
+                      scaffoldKey.currentState?.openEndDrawer();
+                    },
+                  ),
 
-              if (constraints.maxWidth >= DesktopWidth)
-                const MainDesktop()
-              else
-                const MainMobile(),
+                // Hauptinhalt der Seite je nach Bildschirmgröße anzeigen
+                if (constraints.maxWidth >= DesktopWidth)
+                  const MainDesktop()
+                else
+                  const MainMobile(),
 
-              //Fähigkeiten
-              Container(
-                width: screenWidth,
-                padding: const EdgeInsets.fromLTRB(25, 20, 25, 60),
-                color: Colors.black,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    //title
-                    const Text(
-                      "Was ich alles kann",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.normal,
-                        color: CustomColor.whitePrimary,
+                // Fähigkeiten je nach Bildschirmgröße anzeigen
+                Container(
+                  key: navbarKeys[1],
+                  width: screenWidth,
+                  padding: const EdgeInsets.fromLTRB(25, 20, 25, 60),
+                  color: Colors.black,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Titel für Fähigkeiten
+                      const Text(
+                        "Was ich alles kann",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.normal,
+                          color: CustomColor.whitePrimary,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 50),
+                      const SizedBox(height: 50),
 
-                    //platform,skills, and languages
-                    if (constraints.maxWidth >= kMedDesktopWidth)
-                      SkillsDesktop()
-                    else
-                      SkillsMobile(),
-                  ],
+                      // Plattformen, Fähigkeiten und Sprachen je nach Bildschirmgröße anzeigen
+                      if (constraints.maxWidth >= kMedDesktopWidth)
+                        SkillsDesktop()
+                      else
+                        SkillsMobile(),
+                    ],
+                  ),
                 ),
-              ),
 
-              //Projekte
-              const ProjectsSection(),
+                // Projektabschnitt
+                ProjectsSection(
+                  key: navbarKeys[2],
+                ),
 
-              //Kontakt
-             const ContactSection(),
-
-              Container(
-                height: 500,
-                width: double.maxFinite,
-              ),
-            ],
+                // Kontaktabschnitt
+                ContactSection(
+                  key: navbarKeys[3],
+                ),
+              ],
+            ),
           ),
         );
       },
     );
   }
+
+  void scrollToSection(int navIndex) {
+    if(navIndex == 4){
+
+      return;
+    }
+    final key = navbarKeys [navIndex];
+    Scrollable.ensureVisible(
+      key.currentContext!,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
+  }
 }
-
-

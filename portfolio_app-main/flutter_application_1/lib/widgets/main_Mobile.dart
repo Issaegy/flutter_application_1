@@ -1,4 +1,3 @@
-// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants/colors.dart';
 
@@ -9,11 +8,12 @@ class MainMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final screenWidth = screenSize.width;
-    final screenHeight = screenSize.height; // Corrected to use screenHeight instead of screenWidth
+    final screenHeight = screenSize.height; 
 
     return Container(
       color: CustomColor.black,
       padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
+      width: screenWidth,
       height: screenHeight,
       constraints: const BoxConstraints(minHeight: 560),
       child: Column(

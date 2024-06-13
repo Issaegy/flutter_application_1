@@ -6,7 +6,8 @@ import 'package:flutter_application_1/styles/style.dart';
 import 'package:flutter_application_1/widgets/side_logo.dart';
 
 class HeaderDesktop extends StatelessWidget {
-  const HeaderDesktop({super.key});
+  const HeaderDesktop({super.key, required this.onNavMenuTap,});
+  final Function(int)onNavMenuTap;
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +29,13 @@ class HeaderDesktop extends StatelessWidget {
                Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: TextButton(
-                onPressed: (){}, 
-                child: Text(navTitles[i], style: const TextStyle(
+                onPressed: (){
+                  onNavMenuTap(i);
+                }, 
+                child: 
+                Text(
+                  navTitles[i],
+                  style: const TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
                   color: CustomColor.whitePrimary, 
