@@ -39,8 +39,8 @@ class ProjectsSection extends StatelessWidget {
                                 project: hobbyProjectUtils[i]),
                             ],
                           ),
-                        ), //hobbyProjectUtils, da der Name,  meiner Projekte in der ProjectUtils Klasse, "HobbyProjectUtils" 
-                      ], //rechtsklick und dann auf "Zur Typdefinition wechseln" drücken
+                        ), 
+                      ], 
                     ),
                     );
 }
